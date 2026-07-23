@@ -104,6 +104,22 @@ function twoTargetConfig() {
   };
 }
 
+test("disabling the landing page hides it and enables MindAR auto-start", () => {
+  const config = twoTargetConfig();
+  config.showLandingPage = false;
+  const { elements, scene } = bootApp(config);
+
+  assert.equal(elements["screen-start"].hidden, true);
+  assert.match(scene.attributes.get("mindar-image"), /autoStart: true;/);
+});
+
+test("config keeps the landing page visible by default", () => {
+  const context = { window: {} };
+  vm.runInNewContext(configSource, context);
+
+  assert.equal(context.window.AR_CONFIG.showLandingPage, true);
+});
+
 test("config allows two targets to be tracked simultaneously", () => {
   const context = { window: {} };
   vm.runInNewContext(configSource, context);

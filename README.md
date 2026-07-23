@@ -38,6 +38,21 @@ To test the AR flow on a desktop, print the card (or open
 `assets/targets/card-source.png` on your phone screen) and point your webcam
 at it. To test on a phone, deploy (below) — phones need HTTPS.
 
+## Landing page setting
+
+**Location: `js/config.js`**
+
+```js
+showLandingPage: true,
+```
+
+- `true` (default) shows the branded landing page and **Start** button.
+- `false` hides the landing page and starts MindAR immediately.
+
+This is a code-only setting; it does not add a user-facing toggle. With the
+landing page disabled, the browser may still show its required camera-permission
+prompt. If camera access fails, the existing error screen remains available.
+
 ## Set up your card and 3D model
 
 ### 1. Prepare the final card artwork

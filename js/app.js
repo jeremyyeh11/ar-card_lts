@@ -8,6 +8,7 @@
   "use strict";
 
   const cfg = window.AR_CONFIG;
+  const shouldAutoStart = cfg.showLandingPage === false;
 
   const ui = {
     start: document.getElementById("screen-start"),
@@ -36,7 +37,8 @@
     const scene = document.createElement("a-scene");
     scene.setAttribute(
       "mindar-image",
-      "imageTargetSrc: " + cfg.targetFile + "; autoStart: false; " +
+      "imageTargetSrc: " + cfg.targetFile + "; " +
+        "autoStart: " + shouldAutoStart + "; " +
         "maxTrack: " + cfg.maxTrack + "; " +
         "uiLoading: no; uiScanning: no; uiError: no;"
     );
@@ -118,6 +120,7 @@
 
   // ---------- boot ----------
   applyBranding();
+  if (shouldAutoStart) hide(ui.start);
   const { scene, anchors } = buildScene();
   const activeTargets = new Set();
 

@@ -6,6 +6,10 @@
 window.AR_CONFIG = {
   brandName: "Demo Brand",
 
+  // LANDING PAGE: set to false to skip the Start screen and request camera
+  // access immediately. Keep true when you want an explicit Start button.
+  showLandingPage: true,
+
   // Compiled image target. Regenerate with the MindAR compiler
   // (https://hiukim.github.io/mind-ar-js-doc/tools/compile) or tools/compile.html
   targetFile: "assets/targets/card.mind",
