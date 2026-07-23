@@ -12,7 +12,8 @@ window.AR_CONFIG = {
 
   // Compiled image target. Regenerate with the MindAR compiler
   // (https://hiukim.github.io/mind-ar-js-doc/tools/compile) or tools/compile.html
-  targetFile: "assets/targets/card.mind",
+  // Version query must change whenever card.mind changes; /assets is immutable.
+  targetFile: "assets/targets/card.mind?v=d74690a8",
 
   // Maximum number of image targets that can stay anchored at the same time.
   // This is a ceiling, not a required count: zero or one target still works.

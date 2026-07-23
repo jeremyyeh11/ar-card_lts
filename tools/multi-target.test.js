@@ -120,6 +120,16 @@ test("config keeps the landing page visible by default", () => {
   assert.equal(context.window.AR_CONFIG.showLandingPage, true);
 });
 
+test("config versions the active target bundle for cache invalidation", () => {
+  const context = { window: {} };
+  vm.runInNewContext(configSource, context);
+
+  assert.equal(
+    context.window.AR_CONFIG.targetFile,
+    "assets/targets/card.mind?v=d74690a8"
+  );
+});
+
 test("config allows two targets to be tracked simultaneously", () => {
   const context = { window: {} };
   vm.runInNewContext(configSource, context);

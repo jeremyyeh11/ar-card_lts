@@ -85,8 +85,16 @@ Rename the generated file to `card.mind` and place it here:
 assets/targets/card.mind
 ```
 
-`js/config.js` already loads that path through `targetFile`. If you use another
-filename, update `targetFile` to match.
+`js/config.js` loads that file through `targetFile`. The URL includes a version
+query because Vercel caches `/assets/` files as immutable:
+
+```js
+targetFile: "assets/targets/card.mind?v=d74690a8",
+```
+
+Whenever `card.mind` changes, update the `v` value to a new version or the first
+eight characters of the file's SHA-256 hash. Otherwise returning browsers may
+keep using the old target bundle.
 
 For multiple cards, use the official compiler and upload all final card images in
 the same batch. The compiler produces one combined `.mind` file. Image order
