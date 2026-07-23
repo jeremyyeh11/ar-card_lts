@@ -21,7 +21,7 @@ index.html           app shell + overlay UI (start / scanning / error)
 css/style.css        styles; brand colors come in via CSS variables
 js/config.js         ★ the reskin file — brand, model, theme, copy
 js/app.js            scene construction + UI state machine
-assets/targets/      card artwork (card-source.png) + compiled tracker (card.mind)
+assets/targets/      card artwork (card-source.jpg) + compiled tracker (card.mind)
 assets/models/       3D model (fox.glb placeholder — animated, CC-BY 4.0 Khronos sample)
 tools/               dev-only: local target compiler + dev server
 vercel.json          cache headers
@@ -35,7 +35,7 @@ node tools/dev-server.js
 
 Open http://localhost:8321. Camera access works on `localhost` without HTTPS.
 To test the AR flow on a desktop, print the card (or open
-`assets/targets/card-source.png` on your phone screen) and point your webcam
+`assets/targets/card-source.jpg` on your phone screen) and point your webcam
 at it. To test on a phone, deploy (below) — phones need HTTPS.
 
 ## Landing page setting
@@ -61,7 +61,7 @@ Design the complete card face, including the real QR code that points to the
 production URL. Export it at least 1000 px wide and save a copy as:
 
 ```text
-assets/targets/card-source.png
+assets/targets/card-source.jpg
 ```
 
 Do not crop, stretch, or edit the printed version after compiling it. Any change
@@ -146,7 +146,7 @@ animation.
 ### 4. Test before deployment
 
 Run `node tools/dev-server.js`, open `http://localhost:8321`, tap **Start**, and
-point the camera at the exact `card-source.png` artwork on a print or second
+point the camera at the exact `card-source.jpg` artwork on a print or second
 screen. Then deploy the source artwork, compiled target, and model together.
 
 ## Marker requirements (what makes tracking work)
@@ -187,5 +187,5 @@ and add it to the card artwork.
   [Khronos glTF-Sample-Assets](https://github.com/KhronosGroup/glTF-Sample-Assets)
   (CC-BY 4.0, model by PixelMannen, rig/animation by @tomkranis). Clips:
   `Survey`, `Walk`, `Run`.
-- `assets/targets/card-source.png` — generated demo card (the QR on it is a
-  non-scannable placeholder; replace with a real QR after deploying).
+- `assets/targets/card-source.jpg` — user-supplied source photo used to compile
+  the active MindAR target.
