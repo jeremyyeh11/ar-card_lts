@@ -23,6 +23,13 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* The scene is created inside this wrapper. Without an explicit height,
+   MindAR centers its camera video inside a zero-height viewport. */
+#scene-container {
+  position: fixed;
+  inset: 0;
+}
+
 /* MindAR injects its video/canvas fullscreen; keep our overlays above it */
 .overlay {
   position: fixed;
