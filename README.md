@@ -38,22 +38,74 @@ To test the AR flow on a desktop, print the card (or open
 `assets/targets/card-source.png` on your phone screen) and point your webcam
 at it. To test on a phone, deploy (below) — phones need HTTPS.
 
-## Reskin checklist (per brand)
+## Set up your card and 3D model
 
-1. **Card artwork** — design the card face, export ≥1000 px wide, save as
-   `assets/targets/card-source.png`. See "Marker requirements" below.
-2. **Compile the tracking target** — run the dev server, open
-   `http://localhost:8321/tools/compile.html`, pick your artwork, and save the
-   result as `assets/targets/card.mind`. (Or use the official
-   [MindAR compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile).)
-3. **3D model** — drop your `.glb` into `assets/models/` (keep it under ~5 MB;
-   Draco-compressed glTF is fine). Animated models play via their built-in clips.
-4. **`js/config.js`** — update `brandName`, `targetFile`, `model` (src, scale,
-   position, rotation, animationClip), `theme` colors, and `hintText`.
-   Scale/position are relative to the card: marker width = 1 unit.
-5. **QR code** — after deploying, generate a QR for the live URL (any QR
-   generator) and place it on the card artwork. Recompile the `.mind` if the
-   artwork changed.
+### 1. Prepare the final card artwork
+
+Design the complete card face, including the real QR code that points to the
+production URL. Export it at least 1000 px wide and save a copy as:
+
+```text
+assets/targets/card-source.png
+```
+
+Do not crop, stretch, or edit the printed version after compiling it. Any change
+to the artwork—including its QR code, text, layout, or imagery—requires a new
+`.mind` file.
+
+### 2. Compile the image target
+
+Use either compiler:
+
+- **Official MindAR compiler:** open
+  [Image Targets Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile),
+  upload the final artwork, click **Start**, and download the generated `.mind`
+  file.
+- **Local compiler:** run `node tools/dev-server.js`, open
+  `http://localhost:8321/tools/compile.html`, and select the final artwork.
+
+Rename the generated file to `card.mind` and place it here:
+
+```text
+assets/targets/card.mind
+```
+
+`js/config.js` already loads that path through `targetFile`. If you use another
+filename, update `targetFile` to match.
+
+### 3. Add the 3D model
+
+Put the model in `assets/models/`, for example:
+
+```text
+assets/models/player.glb
+```
+
+Use `.glb` where possible because it packages the model, materials, and textures
+into one file. Keep it under roughly 5 MB for mobile loading; Draco-compressed
+glTF is supported.
+
+Point the config at the model and adjust its transform:
+
+```js
+model: {
+  src: "assets/models/player.glb",
+  scale: 0.008,
+  position: [0, 0, 0.1],
+  rotation: [90, 0, 0],
+  animationClip: "",
+},
+```
+
+Scale and position are relative to the tracked card: the card width equals one
+AR unit. Set `animationClip` to a clip name, `"*"` for all clips, or `""` for no
+animation.
+
+### 4. Test before deployment
+
+Run `node tools/dev-server.js`, open `http://localhost:8321`, tap **Start**, and
+point the camera at the exact `card-source.png` artwork on a print or second
+screen. Then deploy the source artwork, compiled target, and model together.
 
 ## Marker requirements (what makes tracking work)
 
