@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AR Card</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/config.js"></script>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+</head>
+<body>
+  <!-- A-Frame scene is built here by app.js from AR_CONFIG -->
+  <div id="scene-container"></div>
+
+  <!-- Start screen: one tap to request camera + boot AR -->
+  <div id="screen-start" class="overlay">
+    <div class="brand" id="brand-name"></div>
+    <button id="btn-start" type="button">
+      <span id="btn-start-label">Start</span>
+      <span id="btn-start-spinner" class="spinner" hidden></span>
+    </button>
+  </div>
+
+  <!-- Scanning hint: shown while looking for the card -->
+  <div id="screen-scanning" class="overlay overlay-passthrough" hidden>
+    <div class="scan-frame" aria-hidden="true">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+    </div>
+    <p class="hint" id="hint-text"></p>
+  </div>
+
+  <!-- Error screen: camera denied / unsupported browser -->
+  <div id="screen-error" class="overlay" hidden>
+    <p class="error-title">Camera unavailable</p>
+    <p class="error-body" id="error-text">
+      Please allow camera access, or open this page in Safari or Chrome.
+    </p>
+    <button id="btn-retry" type="button">Try again</button>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

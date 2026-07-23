@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>MindAR target compiler (local)</title>
+<!--
+  Local alternative to https://hiukim.github.io/mind-ar-js-doc/tools/compile
+  Compiles a card image into a .mind tracking target.
+
+  Usage (from repo root):
+    node tools/dev-server.js
+    open http://localhost:8321/tools/compile.html
+      - pick your card image, wait, then "Download targets.mind"
+      - or add ?src=assets/targets/card-source.png&autosave=1 to compile the
+        demo card and save it back to assets/targets/card.mind automatically
+-->
+<style>
+  body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+  #log { white-space: pre-wrap; background: #f4f4f4; padding: 1rem; }
+  img { max-width: 300px; display: block; margin: 1rem 0; }
+</style>
+<h1>MindAR target compiler</h1>
+<input type="file" id="file" accept="image/*" />
+<img id="preview" hidden />
+<p id="log">waiting for image…</p>
+<a id="download" hidden>Download targets.mind</a>
+<script>
+  // The MindAR compiler awaits tf.nextFrame(), i.e. requestAnimationFrame,
+  // and the bundle captures the rAF reference at load time. rAF never fires
+  // in hidden/backgrounded tabs, which would stall compilation forever — so
+  // swap in a timer-based rAF before the bundle loads.
+  window.requestAnimationFrame = (cb) => setTimeout(() => cb(performance.now()), 0);
+</script>
+<script type="module">
+  import { Compiler } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js";
+
+  const log = (m) => (document.getElementById("log").textContent = m);
+  const params = new URLSearchParams(location.search);
+
+  async function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  async function compile(img) {
+    document.getElementById("preview").src = img.src;
+    document.getElementById("preview").hidden = false;
+    const compiler = new Compiler();
+    log("compiling… 0%");
+    await compiler.compileImageTargets([img], (p) =>
+      log("compiling… " + p.toFixed(1) + "%")
+    );
+    const buffer = compiler.exportData();
+    const blob = new Blob([buffer]);
+
+    const a = document.getElementById("download");
+    a.href = URL.createObjectURL(blob);
+    a.download = "targets.mind";
+    a.hidden = false;
+
+    if (params.get("autosave") === "1") {
+      const res = await fetch("/save?name=assets/targets/card.mind", {
+        method: "POST",
+        body: blob,
+      });
+      log(res.ok
+        ? "DONE — saved assets/targets/card.mind (" + blob.size + " bytes)"
+        : "compiled, but autosave failed — use the download link");
+    } else {
+      log("DONE — download your .mind file below (" + blob.size + " bytes)");
+    }
+  }
+
+  document.getElementById("file").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (file) compile(await loadImage(URL.createObjectURL(file)));
+  });
+
+  if (params.get("src")) {
+    compile(await loadImage("/" + params.get("src").replace(/^\//, "")));
+  }
+</script>
