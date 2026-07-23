@@ -37,6 +37,7 @@
     scene.setAttribute(
       "mindar-image",
       "imageTargetSrc: " + cfg.targetFile + "; autoStart: false; " +
+        "maxTrack: " + cfg.maxTrack + "; " +
         "uiLoading: no; uiScanning: no; uiError: no;"
     );
     scene.setAttribute("color-space", "sRGB");
@@ -60,24 +61,31 @@
     directional.setAttribute("position", "0.5 1 1");
     scene.appendChild(directional);
 
-    // Everything under mindar-image-target auto-shows on targetFound
-    // and auto-hides on targetLost.
-    const anchor = document.createElement("a-entity");
-    anchor.setAttribute("mindar-image-target", "targetIndex: 0");
+    // Each config entry maps to the target at the same index in the compiled
+    // .mind file. Content is shown and hidden automatically per target.
+    const anchors = cfg.targets.map(function (target, targetIndex) {
+      const anchor = document.createElement("a-entity");
+      anchor.setAttribute("mindar-image-target", "targetIndex: " + targetIndex);
 
-    const model = document.createElement("a-gltf-model");
-    model.setAttribute("src", cfg.model.src);
-    model.setAttribute("scale", cfg.model.scale + " " + cfg.model.scale + " " + cfg.model.scale);
-    model.setAttribute("position", cfg.model.position.join(" "));
-    model.setAttribute("rotation", cfg.model.rotation.join(" "));
-    if (cfg.model.animationClip) {
-      model.setAttribute("animation-mixer", "clip: " + cfg.model.animationClip);
-    }
-    anchor.appendChild(model);
-    scene.appendChild(anchor);
+      const modelConfig = target.model;
+      const model = document.createElement("a-gltf-model");
+      model.setAttribute("src", modelConfig.src);
+      model.setAttribute(
+        "scale",
+        modelConfig.scale + " " + modelConfig.scale + " " + modelConfig.scale
+      );
+      model.setAttribute("position", modelConfig.position.join(" "));
+      model.setAttribute("rotation", modelConfig.rotation.join(" "));
+      if (modelConfig.animationClip) {
+        model.setAttribute("animation-mixer", "clip: " + modelConfig.animationClip);
+      }
+      anchor.appendChild(model);
+      scene.appendChild(anchor);
+      return anchor;
+    });
 
     document.getElementById("scene-container").appendChild(scene);
-    return { scene, anchor };
+    return { scene, anchors };
   }
 
   // ---------- state machine ----------
@@ -110,7 +118,8 @@
 
   // ---------- boot ----------
   applyBranding();
-  const { scene, anchor } = buildScene();
+  const { scene, anchors } = buildScene();
+  const activeTargets = new Set();
 
   scene.addEventListener("arReady", function () {
     toScanning();
@@ -124,8 +133,16 @@
     );
   });
 
-  anchor.addEventListener("targetFound", toTracking);
-  anchor.addEventListener("targetLost", toScanning);
+  anchors.forEach(function (anchor, targetIndex) {
+    anchor.addEventListener("targetFound", function () {
+      activeTargets.add(targetIndex);
+      toTracking();
+    });
+    anchor.addEventListener("targetLost", function () {
+      activeTargets.delete(targetIndex);
+      if (activeTargets.size === 0) toScanning();
+    });
+  });
 
   ui.btnStart.addEventListener("click", function () {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {

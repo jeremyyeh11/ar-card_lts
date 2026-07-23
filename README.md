@@ -55,14 +55,14 @@ to the artwork—including its QR code, text, layout, or imagery—requires a ne
 
 ### 2. Compile the image target
 
-Use either compiler:
+Use either compiler for a single card:
 
 - **Official MindAR compiler:** open
   [Image Targets Compiler](https://hiukim.github.io/mind-ar-js-doc/tools/compile),
   upload the final artwork, click **Start**, and download the generated `.mind`
-  file.
-- **Local compiler:** run `node tools/dev-server.js`, open
-  `http://localhost:8321/tools/compile.html`, and select the final artwork.
+  file. Use this compiler when combining multiple card images.
+- **Local single-image compiler:** run `node tools/dev-server.js`, open
+  `http://localhost:8321/tools/compile.html`, and select one final artwork file.
 
 Rename the generated file to `card.mind` and place it here:
 
@@ -72,6 +72,15 @@ assets/targets/card.mind
 
 `js/config.js` already loads that path through `targetFile`. If you use another
 filename, update `targetFile` to match.
+
+For multiple cards, use the official compiler and upload all final card images in
+the same batch. The compiler produces one combined `.mind` file. Image order
+matters: the first compiled image maps to `targets[0]`, the second to
+`targets[1]`, and so on.
+
+`maxTrack: 2` allows up to two configured targets to remain anchored
+simultaneously. It is a maximum, not a requirement—the app still works with zero
+or one visible card. Raising the limit costs more mobile performance.
 
 ### 3. Add the 3D model
 
@@ -85,16 +94,34 @@ Use `.glb` where possible because it packages the model, materials, and textures
 into one file. Keep it under roughly 5 MB for mobile loading; Draco-compressed
 glTF is supported.
 
-Point the config at the model and adjust its transform:
+Point each target config at its model and adjust the transform. Keep `targets` in
+the same order as the images compiled into the `.mind` file:
 
 ```js
-model: {
-  src: "assets/models/player.glb",
-  scale: 0.008,
-  position: [0, 0, 0.1],
-  rotation: [90, 0, 0],
-  animationClip: "",
-},
+maxTrack: 2,
+
+targets: [
+  {
+    name: "Card one",
+    model: {
+      src: "assets/models/player-one.glb",
+      scale: 0.008,
+      position: [0, 0, 0.1],
+      rotation: [90, 0, 0],
+      animationClip: "",
+    },
+  },
+  {
+    name: "Card two",
+    model: {
+      src: "assets/models/player-two.glb",
+      scale: 0.008,
+      position: [0, 0, 0.1],
+      rotation: [90, 0, 0],
+      animationClip: "",
+    },
+  },
+],
 ```
 
 Scale and position are relative to the tracked card: the card width equals one

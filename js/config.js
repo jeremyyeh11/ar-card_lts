@@ -10,16 +10,27 @@ window.AR_CONFIG = {
   // (https://hiukim.github.io/mind-ar-js-doc/tools/compile) or tools/compile.html
   targetFile: "assets/targets/card.mind",
 
-  model: {
-    src: "assets/models/fox.glb",
-    // Units are relative to the physical card width (marker width == 1).
-    scale: 0.008,
-    position: [0, 0, 0.1],   // x (right), y (up from card face), z (toward viewer)
-    rotation: [90, 0, 0],    // lay the model onto the card plane
-    // Animation clip name to play, "*" for all clips, or "" for none.
-    // Fox.glb clips: "Survey", "Walk", "Run"
-    animationClip: "Survey",
-  },
+  // Maximum number of image targets that can stay anchored at the same time.
+  // This is a ceiling, not a required count: zero or one target still works.
+  maxTrack: 2,
+
+  // Keep this array in the same order as the images compiled into card.mind.
+  // Array index 0 maps to targetIndex 0, index 1 to targetIndex 1, and so on.
+  targets: [
+    {
+      name: "Demo card",
+      model: {
+        src: "assets/models/fox.glb",
+        // Units are relative to the physical card width (marker width == 1).
+        scale: 0.008,
+        position: [0, 0, 0.1],   // x (right), y (up from card face), z (toward viewer)
+        rotation: [90, 0, 0],    // lay the model onto the card plane
+        // Animation clip name to play, "*" for all clips, or "" for none.
+        // Fox.glb clips: "Survey", "Walk", "Run"
+        animationClip: "Survey",
+      },
+    },
+  ],
 
   theme: {
     accent: "#ff5533",
