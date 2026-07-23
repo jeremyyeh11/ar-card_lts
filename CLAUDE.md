@@ -1,17 +1,11 @@
 <!-- code-review-graph MCP tools -->
 ## MCP Tools: code-review-graph
 
-This project uses code-review-graph through Hermes Agent and Codex. Use the
-available graph tools before broad file searches when exploring dependencies,
-reviewing changes, or estimating blast radius. Hermes exposes MCP tools with an
-`mcp_crg_` prefix; Codex exposes the same server under `code-review-graph`.
-
-When a graph tool accepts `repo_root`, pass this repository's absolute root
-explicitly. Hermes uses one shared MCP server for several repositories; relying
-on the server process's working directory can query the wrong project.
-
-The graph is structural context, not ground truth. Fall back to direct file reads
-when the graph is stale, incomplete, or the task concerns static assets/config.
+**IMPORTANT: This project has a knowledge graph. ALWAYS use the
+code-review-graph MCP tools BEFORE using Grep/Glob/Read to explore
+the codebase.** The graph is faster, cheaper (fewer tokens), and gives
+you structural context (callers, dependents, test coverage) that file
+scanning cannot.
 
 ### When to use graph tools FIRST
 
