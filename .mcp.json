@@ -6,7 +6,7 @@
         "code-review-graph==2.3.7",
         "serve"
       ],
-      "cwd": "D:\\github-repos\\ar-card_lts",
+      "cwd": "D:\\_github-repos\\ar-card_lts",
       "type": "stdio"
     }
   }
