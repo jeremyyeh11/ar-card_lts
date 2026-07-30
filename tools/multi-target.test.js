@@ -126,7 +126,7 @@ test("config versions the active target bundle for cache invalidation", () => {
 
   assert.equal(
     context.window.AR_CONFIG.targetFile,
-    "assets/targets/card.mind?v=d74690a8"
+    "assets/targets/card.mind?v=d18e042e"
   );
 });
 

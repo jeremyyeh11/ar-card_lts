@@ -89,7 +89,7 @@ assets/targets/card.mind
 query because Vercel caches `/assets/` files as immutable:
 
 ```js
-targetFile: "assets/targets/card.mind?v=d74690a8",
+targetFile: "assets/targets/card.mind?v=d18e042e",
 ```
 
 Whenever `card.mind` changes, update the `v` value to a new version or the first
@@ -195,5 +195,5 @@ and add it to the card artwork.
   [Khronos glTF-Sample-Assets](https://github.com/KhronosGroup/glTF-Sample-Assets)
   (CC-BY 4.0, model by PixelMannen, rig/animation by @tomkranis). Clips:
   `Survey`, `Walk`, `Run`.
-- `assets/targets/card-source.jpg` — user-supplied source photo used to compile
-  the active MindAR target.
+- `assets/targets/card-source.jpg` — processed user-supplied test sketch used to
+  compile the active MindAR target.
