@@ -23,16 +23,15 @@ window.AR_CONFIG = {
   // Array index 0 maps to targetIndex 0, index 1 to targetIndex 1, and so on.
   targets: [
     {
-      name: "Demo card",
+      name: "Architecture model",
       model: {
-        src: "assets/models/fox.glb",
+        src: "assets/models/architecture-35b9db4c.glb",
         // Units are relative to the physical card width (marker width == 1).
         scale: 0.008,
-        position: [0, 0, 0.1],   // x (right), y (up from card face), z (toward viewer)
-        rotation: [90, 0, 0],    // lay the model onto the card plane
-        // Animation clip name to play, "*" for all clips, or "" for none.
-        // Fox.glb clips: "Survey", "Walk", "Run"
-        animationClip: "Survey",
+        position: [0, -0.05, 0.01],
+        rotation: [60, 0, -30],  // isometric view projecting outward from the card
+        // This model has no animation clips.
+        animationClip: "",
       },
     },
   ],

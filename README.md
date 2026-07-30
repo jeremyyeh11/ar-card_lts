@@ -11,7 +11,7 @@ Built with [MindAR](https://hiukim.github.io/mind-ar-js-doc/) image tracking +
 
 1. Scan QR code on the card → web app opens
 2. Tap **Start** (grants camera access)
-3. Point camera at the card → animated 3D model appears anchored to it
+3. Point camera at the card → a 3D model appears anchored to it
 4. Card leaves the frame → model disappears (automatic)
 
 ## Repo layout
@@ -22,7 +22,7 @@ css/style.css        styles; brand colors come in via CSS variables
 js/config.js         ★ the reskin file — brand, model, theme, copy
 js/app.js            scene construction + UI state machine
 assets/targets/      source PDF/JPEG + compiled tracker (card.mind)
-assets/models/       3D model (fox.glb placeholder — animated, CC-BY 4.0 Khronos sample)
+assets/models/       optimized active model + animated fox placeholder
 tools/               dev-only: local target compiler + dev server
 vercel.json          cache headers
 ```
@@ -189,9 +189,11 @@ Or connect the repo in the Vercel dashboard (no build command, output
 directory = repo root). Then generate a QR code pointing at the deployed URL
 and add it to the card artwork.
 
-## Placeholder assets
+## Assets
 
-- `assets/models/fox.glb` — animated Fox from
+- `assets/models/architecture-35b9db4c.glb` — active user-supplied architecture
+  model, centered, simplified, and Draco-compressed for mobile delivery.
+- `assets/models/fox.glb` — animated Fox placeholder from
   [Khronos glTF-Sample-Assets](https://github.com/KhronosGroup/glTF-Sample-Assets)
   (CC-BY 4.0, model by PixelMannen, rig/animation by @tomkranis). Clips:
   `Survey`, `Walk`, `Run`.

@@ -143,7 +143,11 @@ test("config keeps target models in compilation order", () => {
 
   assert.ok(Array.isArray(context.window.AR_CONFIG.targets));
   assert.equal(context.window.AR_CONFIG.targets.length, 1);
-  assert.equal(context.window.AR_CONFIG.targets[0].model.src, "assets/models/fox.glb");
+  assert.equal(
+    context.window.AR_CONFIG.targets[0].model.src,
+    "assets/models/architecture-35b9db4c.glb"
+  );
+  assert.equal(context.window.AR_CONFIG.targets[0].model.animationClip, "");
 });
 
 test("app passes the configured simultaneous target limit to MindAR", () => {
