@@ -145,9 +145,13 @@ test("config keeps target models in compilation order", () => {
   assert.equal(context.window.AR_CONFIG.targets.length, 1);
   assert.equal(
     context.window.AR_CONFIG.targets[0].model.src,
-    "assets/models/architecture-35b9db4c.glb"
+    "assets/models/architecture-original-f36945aa.glb"
   );
   assert.equal(context.window.AR_CONFIG.targets[0].model.animationClip, "");
+  assert.equal(
+    JSON.stringify(context.window.AR_CONFIG.targets[0].model.rotation),
+    "[0,0,0]"
+  );
 });
 
 test("app passes the configured simultaneous target limit to MindAR", () => {

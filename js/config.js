@@ -25,11 +25,12 @@ window.AR_CONFIG = {
     {
       name: "Architecture model",
       model: {
-        src: "assets/models/architecture-35b9db4c.glb",
-        // Units are relative to the physical card width (marker width == 1).
-        scale: 0.008,
-        position: [0, -0.05, 0.01],
-        rotation: [60, 0, -30],  // isometric view projecting outward from the card
+        src: "assets/models/architecture-original-f36945aa.glb",
+        // Keep the uploaded model's original orientation. Its source bounds run
+        // from 0..42 on X/Y and -42..0 on Z, so position centers it on the card.
+        scale: 0.01,
+        position: [-0.21, -0.21, 0.43],
+        rotation: [0, 0, 0],
         // This model has no animation clips.
         animationClip: "",
       },

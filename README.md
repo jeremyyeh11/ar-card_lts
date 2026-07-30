@@ -22,7 +22,7 @@ css/style.css        styles; brand colors come in via CSS variables
 js/config.js         ★ the reskin file — brand, model, theme, copy
 js/app.js            scene construction + UI state machine
 assets/targets/      source PDF/JPEG + compiled tracker (card.mind)
-assets/models/       optimized active model + animated fox placeholder
+assets/models/       uncompressed active model + animated fox placeholder
 tools/               dev-only: local target compiler + dev server
 vercel.json          cache headers
 ```
@@ -191,8 +191,9 @@ and add it to the card artwork.
 
 ## Assets
 
-- `assets/models/architecture-35b9db4c.glb` — active user-supplied architecture
-  model, centered, simplified, and Draco-compressed for mobile delivery.
+- `assets/models/architecture-original-f36945aa.glb` — exact uncompressed
+  user-supplied architecture model, displayed without changing its source angle.
+  It is 38.6 MB, so initial loading and frame rate may be worse on mobile.
 - `assets/models/fox.glb` — animated Fox placeholder from
   [Khronos glTF-Sample-Assets](https://github.com/KhronosGroup/glTF-Sample-Assets)
   (CC-BY 4.0, model by PixelMannen, rig/animation by @tomkranis). Clips:
