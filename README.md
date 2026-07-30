@@ -21,7 +21,7 @@ index.html           app shell + overlay UI (start / scanning / error)
 css/style.css        styles; brand colors come in via CSS variables
 js/config.js         ★ the reskin file — brand, model, theme, copy
 js/app.js            scene construction + UI state machine
-assets/targets/      card artwork (card-source.jpg) + compiled tracker (card.mind)
+assets/targets/      source PDF/JPEG + compiled tracker (card.mind)
 assets/models/       3D model (fox.glb placeholder — animated, CC-BY 4.0 Khronos sample)
 tools/               dev-only: local target compiler + dev server
 vercel.json          cache headers
@@ -89,7 +89,7 @@ assets/targets/card.mind
 query because Vercel caches `/assets/` files as immutable:
 
 ```js
-targetFile: "assets/targets/card.mind?v=d18e042e",
+targetFile: "assets/targets/card.mind?v=9436ea58",
 ```
 
 Whenever `card.mind` changes, update the `v` value to a new version or the first
@@ -195,5 +195,6 @@ and add it to the card artwork.
   [Khronos glTF-Sample-Assets](https://github.com/KhronosGroup/glTF-Sample-Assets)
   (CC-BY 4.0, model by PixelMannen, rig/animation by @tomkranis). Clips:
   `Survey`, `Walk`, `Run`.
-- `assets/targets/card-source.jpg` — processed user-supplied test sketch used to
-  compile the active MindAR target.
+- `assets/targets/card-source.pdf` — original user-supplied printable target.
+- `assets/targets/card-source.jpg` — embedded artwork extracted from that PDF and
+  used to compile the active MindAR target.
